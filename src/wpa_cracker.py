@@ -129,29 +129,20 @@ class WCrack:
             self.Cracker(passwords)
 
 
-def run_py(s : bool = False):
+def run_py():
     argv = sys.argv 
-    if s:
-        bssid = argv[1]
-        ssid = argv[2]
-        filename = argv[3]
-        wodllist = argv[4]
-        WCrack(
-            wodllist=wodllist,
-            ssid=ssid,
-            bssid=bssid,
-            filename=filename,
+    bssid = argv[1]
+    ssid = argv[2]
+    filename = argv[3]
+    wodllist = argv[4]
+    WCrack(
+        wodllist=wodllist,
+        ssid=ssid,
+        bssid=bssid,
+        filename=filename,
 
-        ).start()        
-        return 
-    else:
-        WCrack(
-            wodllist="text.txt",
-            ssid="NZT-77DX-494372-01",
-            bssid="60:c5:a8:e2:52:86",
-            filename="cap2.cap",
-        ).start()
-
+    ).start()        
+    return 
 
 if __name__ == "__main__":
     run_py()
