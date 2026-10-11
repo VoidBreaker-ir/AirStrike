@@ -1,0 +1,59 @@
+================================================================================
+                          SAVED_AP.PY — HELP FILE
+================================================================================
+
+NAME
+    Saved_AP.py — Wi-Fi Saved Profile Extractor
+
+DESCRIPTION
+    Retrieves saved Wi-Fi SSIDs and their plaintext passwords from the
+    operating system's credential store.
+
+    Supported platforms:
+        - Linux   : reads /etc/NetworkManager/system-connections/*.nmconnection
+        - Windows : uses `netsh wlan show profiles ... key=clear`
+
+    On unsupported platforms (macOS, BSD), a ValueError is raised.
+
+SYNOPSIS
+    python ./Saved_AP.py
+
+ARGUMENTS
+    None. The script takes no command-line arguments.
+
+BEHAVIOR
+    1. Detects the current operating system.
+    2. Scans the OS credential store for saved Wi-Fi profiles.
+    3. Prints all discovered SSIDs/passwords as a formatted table.
+    4. Writes the results to a JSON file in the current directory.
+
+EXAMPLES
+    # Linux (may require sudo to read NetworkManager files)
+    sudo python3 ./Saved_AP.py
+
+    # Windows (run in an elevated shell)
+    python .\Saved_AP.py
+
+    # Use as a library from another Python script
+    python -c "from Saved_AP import Saved_AP; print(Saved_AP().list_AP())"
+
+OUTPUT
+    - A formatted table printed to stdout.
+    - A file named `file.json` in the current working directory.
+
+REQUIREMENTS
+    - Python 3
+    - tabulate   (pip install tabulate) — optional, needed for table output
+    - Linux   : NetworkManager installed, read access to its config dir
+    - Windows : `netsh` available (standard on all modern Windows)
+
+NOTES
+    - On Linux, files are usually root-only; run with sudo.
+    - On Windows, `key=clear` may require elevation depending on policy.
+    - Open networks and 802.1X networks may not have a recoverable key.
+    - The JSON output is written in plaintext — store it securely.
+
+WARNING
+    Reading saved Wi-Fi passwords is sensitive. Only run this on systems
+    you own or are explicitly authorized to audit.
+================================================================================

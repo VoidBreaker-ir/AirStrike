@@ -1,0 +1,82 @@
+================================================================================
+                           WSCANNER.PY — HELP FILE
+================================================================================
+
+NAME
+    WScanner.py — Live Wi-Fi Network Scanner
+
+DESCRIPTION
+    Passively scans 802.11 traffic on a monitor-mode wireless interface
+    and displays discovered access points, stations, and probe requests
+    in a live terminal UI.
+
+SYNOPSIS
+    sudo python ./WScanner.py <iface> [-c CHANNEL] [-add MAX_CH]
+                                       [-count N] [-o key=value ...]
+
+ARGUMENTS
+    iface           Wireless interface in monitor mode (first positional
+                    argument). Default: wlan0.
+
+OPTIONS
+    -c CHANNEL      Lock the interface to a single channel instead of
+                    hopping. Example: -c 6
+
+    -add MAX_CH     Highest channel to hop to during scanning.
+                    Default: 15. Example: -add 11
+                    (Covers only 2.4 GHz by default.)
+
+    -count N        Packets captured per channel before hopping.
+                    Default: 10. Example: -count 20
+
+    -o key=value    Extra keyword arguments forwarded to Scapy's sniff().
+                    Can be repeated. Example: -o inter=0.1 -o store=0
+
+HOTKEYS
+    Q               Quit the scanner (requires `keyboard` package).
+
+EXAMPLES
+    # Default scan on wlan0, hopping channels 1–15
+    sudo python ./WScanner.py wlan0
+
+    # Scan only channel 6
+    sudo python ./WScanner.py wlan0mon -c 6
+
+    # Hop channels 1–11, capture 20 packets per channel
+    sudo python ./WScanner.py wlan0mon -add 11 -count 20
+
+    # Pass extra sniff() arguments
+    sudo python ./WScanner.py wlan0mon -c 1 -o store=0 -o inter=0.05
+
+OUTPUT
+    A live-updating terminal display showing two tables:
+
+    APS (Access Points):
+        SSID | BSSID | STATIONS | CHANNEL
+
+    STATIONS (Clients):
+        ADDR | BSSID | Probes
+
+REQUIREMENTS
+    - Python 3
+    - Scapy            (pip install scapy)
+    - tabulate         (pip install tabulate)
+    - keyboard         (pip install keyboard) — optional, for the 'Q' hotkey
+    - Root privileges  (sudo)
+    - Monitor mode interface
+
+NOTES
+    - Without `keyboard` installed, quit with Ctrl+C.
+    - On some systems, `keyboard` requires root to read global keys.
+    - Hidden SSIDs are shown as "[Unknow]" until revealed by a probe
+      response.
+    - Station MACs starting with a randomized prefix may appear as
+      unassociated probes.
+    - To capture WPA handshakes while scanning, run the Handshake tool
+      in parallel on the same interface.
+
+WARNING
+    Scanning wireless networks is only legal where permitted. Passive
+    scanning is generally safe, but associating with or attacking
+    networks you do not own may be illegal.
+================================================================================

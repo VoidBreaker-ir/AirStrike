@@ -1,0 +1,52 @@
+================================================================================
+                            DEAUTH.PY — HELP FILE
+================================================================================
+
+NAME
+    Deauth.py — Wi-Fi Deauthentication Attack Tool
+
+DESCRIPTION
+    Sends 802.11 deauthentication frames to disconnect a client (station)
+    from an access point (AP). Uses Scapy to craft raw 802.11 frames.
+    Intended for authorized security testing only.
+
+SYNOPSIS
+    sudo python ./Deauth.py <iface> <ap> [station] [count] [key=value ...]
+
+ARGUMENTS
+    iface       Wireless interface in monitor mode (e.g., wlan0mon).
+    ap          Target access point MAC address (BSSID).
+    station     Target client MAC address.
+                Default: ff:ff:ff:ff:ff:ff (broadcast → all clients).
+    count       Number of deauth frames per direction. Default: 1.
+    key=value   Extra Scapy sendp() arguments (e.g., inter=0.1).
+
+EXAMPLES
+    # Deauth all clients from an AP (broadcast)
+    sudo python ./Deauth.py wlan0mon AA:BB:CC:DD:EE:FF
+
+    # Deauth one specific client 10 times
+    sudo python ./Deauth.py wlan0mon AA:BB:CC:DD:EE:FF 11:22:33:44:55:66 10
+
+    # Send with a 0.05s interval between frames
+    sudo python ./Deauth.py wlan0mon AA:BB:CC:DD:EE:FF 11:22:33:44:55:66 5 inter=0.05
+
+    # Flooding mode: many frames, no delay
+    sudo python ./Deauth.py wlan0mon AA:BB:CC:DD:EE:FF ff:ff:ff:ff:ff:ff 100 inter=0
+
+REQUIREMENTS
+    - Python 3
+    - Scapy            (pip install scapy)
+    - Root privileges  (sudo)
+    - Monitor mode interface with packet injection support
+
+NOTES
+    - Pressing Ctrl+C stops the attack.
+    - Deauth frames use reason code 7 (Class 3 frame received).
+    - Sending in both directions (AP↔STA) increases success rate.
+    - Some modern APs (802.11w / PMF) are resistant to deauth.
+
+WARNING
+    This tool is for authorized security testing and educational use only.
+    Attacking networks without explicit written permission is illegal.
+================================================================================

@@ -1,0 +1,68 @@
+================================================================================
+                            WCRACK.PY — HELP FILE
+================================================================================
+
+NAME
+    WCrack.py — WPA/WPA2 Handshake Password Cracker
+
+DESCRIPTION
+    Offline dictionary-attack tool for WPA/WPA2 4-way handshakes captured
+    in a pcap file. Implements IEEE 802.11i key derivation (PBKDF2 +
+    PRF-512) and compares the computed MIC against the captured MIC.
+
+SYNOPSIS
+    python ./WCrack.py <bssid> <ssid> <pcap_file> <wordlist>
+
+ARGUMENTS
+    bssid       MAC address of the access point (e.g., AA:BB:CC:DD:EE:FF).
+    ssid        Network name (case-sensitive, as broadcast).
+    pcap_file   Path to a pcap containing the 4-way handshake.
+    wordlist    Path to a text file with one candidate password per line.
+
+EXAMPLES
+    # Basic usage with rockyou
+    python ./WCrack.py AA:BB:CC:DD:EE:FF MyWiFi hs.pcap rockyou.txt
+
+    # Use a custom wordlist
+    python ./WCrack.py AA:BB:CC:DD:EE:FF HomeNet capture.pcap pass.txt
+
+    # WPA (not WPA2) — currently requires editing the source
+    #   set versicon=1, mic_number=2 in the WCrack() call.
+
+BEHAVIOR
+    1. Reads the pcap and extracts the 4 EAPOL-Key messages.
+    2. Identifies ANonce, SNonce, MIC, and station MAC.
+    3. For each password in the wordlist:
+         - Derives PMK  = PBKDF2-HMAC(password, ssid, 4096, 32)
+         - Derives PTK  = PRF-512(PMK, "Pairwise Key expansion", ...)
+         - Computes MIC = HMAC(PTK[:16], EAPOL-frame)
+         - Compares to the captured MIC.
+    4. Stops and prints the password on match.
+
+OUTPUT
+    On success:
+        [*] BSSID:  ...
+        [*] STA:    ...
+        [*] ANonce: ...
+        [*] SNonce: ...
+        [*] MIC:    ...
+        [+] Found Password: <password>
+
+    On failure:
+        [!] Tried N password(s), none matched.
+
+REQUIREMENTS
+    - Python 3
+    - Scapy            (pip install scapy)
+    - A pcap file containing a full 4-way handshake (messages 1 & 2 at minimum)
+
+NOTES
+    - Wordlist must be a plain text file, one password per line.
+    - Large wordlists (e.g., rockyou: 14M) can take hours or days.
+    - WPA2 (HMAC-SHA1) is default. WPA (HMAC-MD5) needs source edits.
+    - For best speed, run on a machine with a fast CPU.
+
+WARNING
+    Cracking Wi-Fi passwords without explicit permission is illegal.
+    Use only on networks you own or are authorized to audit.
+================================================================================

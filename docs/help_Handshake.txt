@@ -1,0 +1,57 @@
+================================================================================
+                       HANDSHAKE_CAPTURE.PY — HELP FILE
+================================================================================
+
+NAME
+    handshake_capture.py — Wi-Fi WPA/WPA2 Handshake Capture
+
+DESCRIPTION
+    Captures EAPOL (802.1X) frames from a wireless interface in monitor
+    mode and saves them to a pcap file. The captured 4-way handshake can
+    later be used for offline password auditing with tools such as
+    aircrack-ng or hashcat.
+
+SYNOPSIS
+    sudo python ./handshake_capture.py <iface> <channel> <namefile>
+
+ARGUMENTS
+    iface       Wireless interface in monitor mode (e.g., wlan0mon).
+    channel     Wi-Fi channel to lock the interface to (e.g., 1, 6, 11).
+    namefile    Output pcap file path (e.g., handshake.pcap).
+
+EXAMPLES
+    # Capture on channel 6
+    sudo python ./handshake_capture.py wlan0mon 6 handshake.pcap
+
+    # Capture on channel 11, save to /tmp
+    sudo python ./handshake_capture.py wlan0mon 11 /tmp/hs.pcap
+
+    # Capture on a 5 GHz channel
+    sudo python ./handshake_capture.py wlan0mon 36 hs_5g.pcap
+
+BEHAVIOR
+    1. Locks the interface to the requested channel using `iw`
+       (falls back to `iwconfig` if `iw` is unavailable).
+    2. Sniffs for EAPOL frames only.
+    3. Prints a message for every EAPOL frame received.
+    4. On Ctrl+C, writes all collected frames to the pcap file.
+
+REQUIREMENTS
+    - Python 3
+    - Scapy            (pip install scapy)
+    - Root privileges  (sudo)
+    - Monitor mode interface with packet injection support
+    - `iw` or `iwconfig` for channel control
+
+NOTES
+    - Press Ctrl+C to stop the capture and save the file.
+    - To force a handshake, use the Deauth tool against a connected
+      client while this capture is running.
+    - If no EAPOL frames are captured, no pcap file is written.
+    - Verify the handshake with:
+          aircrack-ng handshake.pcap
+
+WARNING
+    Capturing wireless traffic is only legal on networks you own or
+    have explicit written permission to test.
+================================================================================
