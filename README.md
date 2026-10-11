@@ -1,8 +1,6 @@
 # 🚀 AirStrike — Enhanced README
 
 Here's a polished, expanded version of your README with improved formatting, badges, tables, examples, and modern structure.
-
-```markdown
 <p align="center">
   <img src="assets/wifi.jpg" alt="AirStrike Banner" width="100%">
 </p>
@@ -512,7 +510,6 @@ See [`LICENSE`](./LICENSE) for details.
 <p align="center">
   Made with ❤️ for the security community
 </p>
-```
 
 ---
 
