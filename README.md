@@ -1,3 +1,27 @@
+<h1 align="center">🚀 AirStrike</h1>
+
+<p align="center">
+  <img src="assets/wifi.jpg" alt="AirStrike Banner" width="700"/>
+</p>
+
+<p align="center">
+  <b>A Scapy-powered wireless auditing toolkit for authorized WiFi security testing.</b>
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
+  <a href="https://scapy.net/"><img src="https://img.shields.io/badge/scapy-2.5.0%2B-orange.svg" alt="Scapy"></a>
+  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey.svg" alt="Platform">
+  <img src="https://img.shields.io/badge/status-beta-yellow.svg" alt="Status">
+</p>
+
+<p align="center">
+  <b>Features</b> • <b>Installation</b> • <b>Usage</b> • <b>Workflow</b> • <b>Troubleshooting</b> • <b>Known Issues</b> • <b>Roadmap</b> • <b>License</b>
+</p>
+
+---
+
 # 🚀 AirStrike
 
 > A Scapy-powered wireless auditing toolkit covering the full WiFi penetration testing workflow — from reconnaissance to offline analysis — in a single Python project.
